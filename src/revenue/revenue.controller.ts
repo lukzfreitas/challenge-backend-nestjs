@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ContentDuplicateException } from 'src/common/exceptions/content-duplicate.exception';
 import { Revenue } from './revenue.schema';
 import { RevenueService } from './revenue.service';
@@ -31,5 +31,10 @@ export class RevenueController {
     @Get(':id')
     findById(@Param('id') id: string): Promise<Revenue> {
         return this.revenueService.findyId(id);
+    }
+
+    @Delete(':id')
+    delete(@Param() params): Promise<void> {
+        return this.revenueService.delete(params.id);
     }
 }

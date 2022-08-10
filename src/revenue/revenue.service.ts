@@ -25,6 +25,10 @@ export class RevenueService {
         return this.revenueModel.findOneAndUpdate({ _id: id }, revenue, { new: true }).exec();
     }
 
+    async delete(id: string): Promise<void> {
+        this.revenueModel.findByIdAndDelete({ _id: id }).exec();
+    }
+
     async checkIsDuplicated(revenue: Revenue): Promise<boolean> {
         const date = new Date(revenue.date);
         const list = await this.revenueModel.find().where({
