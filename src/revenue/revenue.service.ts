@@ -10,7 +10,7 @@ export class RevenueService {
     constructor(@InjectModel(Revenue.name) private revenueModel: Model<RevenueDocument>) { }
 
     async findyId(id: string): Promise<Revenue> {
-        return this.revenueModel.findOne({ id })
+        return this.revenueModel.findOne({ _id: id })
     }
 
     async findAll(): Promise<Revenue[]> {
@@ -19,6 +19,10 @@ export class RevenueService {
 
     async create(revenue: Revenue): Promise<Revenue> {
         return new this.revenueModel(revenue).save();
+    }
+
+    async update(id: string, revenue: Revenue): Promise<Revenue> {
+        return this.revenueModel.findOneAndUpdate({ _id: id }, revenue, { new: true }).exec();
     }
 
     async checkIsDuplicated(revenue: Revenue): Promise<boolean> {
