@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ContentDuplicateException } from 'src/common/exceptions/content-duplicate.exception';
 import { Revenue } from './revenue.schema';
 import { RevenueService } from './revenue.service';
@@ -16,5 +16,10 @@ export class RevenueController {
         } else {
             this.revenueService.create(revenue);
         }
+    }
+
+    @Get()
+    findAll(): Promise<Revenue[]> {
+        return this.revenueService.findAll();
     }
 }
