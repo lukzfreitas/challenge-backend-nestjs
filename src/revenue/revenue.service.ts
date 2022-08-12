@@ -1,7 +1,7 @@
-import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { throwError } from 'rxjs';
+
 import { Revenue, RevenueDocument } from './revenue.schema';
 
 @Injectable()
@@ -13,7 +13,10 @@ export class RevenueService {
         return this.revenueModel.findOne({ _id: id })
     }
 
-    async findAll(): Promise<Revenue[]> {
+    async findAll(query: {description: string}): Promise<Revenue[]> {
+        if (query.description) {
+            return this.revenueModel.find({ description: { $regex: query.description, $options: 'i' } }).exec();
+        }
         return this.revenueModel.find().exec();
     }
 

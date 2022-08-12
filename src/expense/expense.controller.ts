@@ -15,22 +15,22 @@ export class ExpenseController {
         const exists: boolean = await this.expenseService.checkIsDuplicated(expense);
         if (exists) {
             throw new ContentDuplicateException();
-        }        
+        }
         if (!expense.category || expense.category > 7 || expense.category < 0) {
             expense.category = CategoryEnum.OTHER;
         }
-        this.expenseService.create(expense);        
+        this.expenseService.create(expense);
     }
 
     @Get()
-    findAll(@Query() query): Promise<Revenue[]> {        
+    findAll(@Query() query): Promise<Revenue[]> {
         return this.expenseService.findAll(query);
     }
 
     @Get(':id')
     findById(@Param('id') id: string): Promise<Revenue> {
         return this.expenseService.findyId(id);
-    }    
+    }
 
     @Delete(':id')
     delete(@Param() params): Promise<void> {
