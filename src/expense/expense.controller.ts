@@ -1,8 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CategoryEnum } from 'src/common/constants/category.enum';
 import { ContentDuplicateException } from 'src/common/exceptions/content-duplicate.exception';
-import { RequiredException } from 'src/common/exceptions/required.exception';
-import { Revenue } from 'src/revenue/revenue.schema';
 import { Expense } from './expense.schema';
 import { ExpenseService } from './expense.service';
 
@@ -23,13 +21,18 @@ export class ExpenseController {
     }
 
     @Get()
-    findAll(@Query() query): Promise<Revenue[]> {
+    findAll(@Query() query): Promise<Expense[]> {
         return this.expenseService.findAll(query);
     }
 
     @Get(':id')
-    findById(@Param('id') id: string): Promise<Revenue> {
+    findById(@Param('id') id: string): Promise<Expense> {
         return this.expenseService.findyId(id);
+    }
+
+    @Get('/:year/:month')
+    findByMonth(@Param('year') year: number, @Param('month') month: number,): Promise<Expense[]> {                
+        return this.expenseService.findByMonth(year, month);
     }
 
     @Delete(':id')
@@ -38,7 +41,7 @@ export class ExpenseController {
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() revenue): Promise<Revenue> {
+    update(@Param('id') id: string, @Body() revenue): Promise<Expense> {
         return this.expenseService.update(id, revenue);
     }
 }

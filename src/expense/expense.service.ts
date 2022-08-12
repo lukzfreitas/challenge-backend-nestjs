@@ -4,9 +4,20 @@ import { Model } from 'mongoose';
 import { Expense, ExpenseDocument } from './expense.schema';
 
 @Injectable()
-export class ExpenseService {
+export class ExpenseService {    
 
     constructor(@InjectModel(Expense.name) private expenseModel: Model<ExpenseDocument>) { }
+
+    async findByMonth(year: number, month: number): Promise<Expense[]> {
+        const gteDate = new Date(year, month - 1, 1);
+        const ltDate = new Date(year, month, 0);        
+        return this.expenseModel.find().where({
+            date:  {
+                $gte: gteDate,
+                $lte: ltDate
+            }
+        })
+    }
 
     async findyId(id: string): Promise<Expense> {
         return this.expenseModel.findOne({ _id: id })
@@ -37,7 +48,7 @@ export class ExpenseService {
             description: expense.description,
             date: {
                 $gte: new Date(date.getFullYear(), date.getMonth(), 1),
-                $lt: new Date(date.getFullYear(), date.getMonth() + 1, 0)
+                $lte: new Date(date.getFullYear(), date.getMonth() + 1, 0)
             }
         });
         return list.length > 0;
