@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { CategoryEnum } from "src/common/constants/category.enum";
 import { Money } from "src/models/money";
 
 export type ExpenseDocument = Expense & Document
@@ -14,6 +15,9 @@ export class Expense {
 
     @Prop({ type: Date, required: true })
     date: Date;
+
+    @Prop({ type: Number, required: true })
+    category: Number;
 }
 
 export const ExpenseSchema = SchemaFactory.createForClass(Expense);

@@ -1,6 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { CategoryEnum } from 'src/common/constants/category.enum';
 import { ContentDuplicateException } from 'src/common/exceptions/content-duplicate.exception';
+import { RequiredException } from 'src/common/exceptions/required.exception';
 import { Revenue } from 'src/revenue/revenue.schema';
+import { Expense } from './expense.schema';
 import { ExpenseService } from './expense.service';
 
 @Controller('expense')
@@ -8,13 +11,15 @@ export class ExpenseController {
     constructor(private expenseService: ExpenseService) { }
 
     @Post()
-    async create(@Body() expense): Promise<void> {
+    async create(@Body() expense: Expense): Promise<void> {
         const exists: boolean = await this.expenseService.checkIsDuplicated(expense);
         if (exists) {
             throw new ContentDuplicateException();
-        } else {
-            this.expenseService.create(expense);
+        }        
+        if (!expense.category || expense.category > 7 || expense.category < 0) {
+            expense.category = CategoryEnum.OTHER;
         }
+        this.expenseService.create(expense);        
     }
 
     @Get()
