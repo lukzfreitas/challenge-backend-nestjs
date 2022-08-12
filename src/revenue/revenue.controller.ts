@@ -33,6 +33,12 @@ export class RevenueController {
         return this.revenueService.findyId(id);
     }
 
+    @Get('/:year/:month')
+    findByMonth(@Param('year') year: number, @Param('month') month: number,): Promise<Revenue[]> {                
+        return this.revenueService.findByMonth(year, month);
+    }
+
+
     @Delete(':id')
     delete(@Param() params): Promise<void> {
         return this.revenueService.delete(params.id);

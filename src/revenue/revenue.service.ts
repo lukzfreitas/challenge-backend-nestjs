@@ -33,14 +33,25 @@ export class RevenueService {
     }
 
     async checkIsDuplicated(revenue: Revenue): Promise<boolean> {
-        const date = new Date(revenue.date);
+        const date: Date = new Date(revenue.date);
         const list = await this.revenueModel.find().where({
             description: revenue.description,
             date: {
                 $gte: new Date(date.getFullYear(), date.getMonth(), 1),
-                $lt: new Date(date.getFullYear(), date.getMonth() + 1, 0)
+                $lte: new Date(date.getFullYear(), date.getMonth() + 1, 0)
             }
         });
         return list.length > 0;
+    }
+
+    async findByMonth(year: number, month: number): Promise<Revenue[]> {        
+        const gteDate = new Date(year, month - 1, 1);
+        const ltDate = new Date(year, month, 0);        
+        return this.revenueModel.find().where({
+            date:  {
+                $gte: gteDate,
+                $lte: ltDate
+            }
+        })
     }
 }
