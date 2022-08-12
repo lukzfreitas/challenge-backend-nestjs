@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CategoryEnum } from 'src/common/constants/category.enum';
 import { ContentDuplicateException } from 'src/common/exceptions/content-duplicate.exception';
 import { RequiredException } from 'src/common/exceptions/required.exception';
@@ -23,14 +23,14 @@ export class ExpenseController {
     }
 
     @Get()
-    findAll(): Promise<Revenue[]> {
-        return this.expenseService.findAll();
+    findAll(@Query() query): Promise<Revenue[]> {        
+        return this.expenseService.findAll(query);
     }
 
     @Get(':id')
     findById(@Param('id') id: string): Promise<Revenue> {
         return this.expenseService.findyId(id);
-    }
+    }    
 
     @Delete(':id')
     delete(@Param() params): Promise<void> {

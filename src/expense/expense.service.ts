@@ -12,7 +12,10 @@ export class ExpenseService {
         return this.expenseModel.findOne({ _id: id })
     }
 
-    async findAll(): Promise<Expense[]> {
+    async findAll(query: { description: string }): Promise<Expense[]> {
+        if (query.description) {
+            return this.expenseModel.find({ description: { $regex: query.description, $options: 'i' } }).exec();
+        }
         return this.expenseModel.find().exec();
     }
 
