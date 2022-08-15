@@ -7,15 +7,8 @@ export class ExtractController {
 
     constructor(private extractService: ExtractService) { }
 
-    @Get('/:type/:year/:month')
-    extractByMonth(@Param('type') type: string, @Param('year') year: number, @Param('month') month: number): Promise<any> {
-        switch (type) {
-            case 'revenue':
-                return this.extractService.extractRevenueByMonth(year, month);
-            case 'expense':
-                return this.extractService.extractExpenseByMonth(year, month);
-            default:
-                throw new InternalServerErrorException('Type not found');
-        }        
+    @Get('/:year/:month')
+    extractByMonth(@Param('year') year: number, @Param('month') month: number): Promise<any> {
+        return this.extractService.extract(year, month);
     }
 }

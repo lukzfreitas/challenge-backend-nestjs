@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ExtractModel } from 'src/models/extract.model';
 import { Expense, ExpenseDocument } from './expense.schema';
 
 @Injectable()
@@ -55,7 +54,7 @@ export class ExpenseService {
         return list.length > 0;
     }
 
-    async sumExpense(year: number, month: number) {
+    async extractExpanseByMonth(year: number, month: number) {
         const gteDate = new Date(year, month - 1, 1);
         const lteDate = new Date(year, month, 0);
         return await this.expenseModel.aggregate([
@@ -64,8 +63,24 @@ export class ExpenseService {
                 $group: {
                     _id: { month: { $month: "$date" }, year: { $year: "$date" } },
                     totalAmount: { $sum: "$money.amount" }
-                }
-            }
+                },
+            },
         ]).exec();
     }
+
+    async extractExpanseByCategory(year: number, month: number) {
+        const gteDate = new Date(year, month - 1, 1);
+        const lteDate = new Date(year, month, 0);
+        return await this.expenseModel.aggregate([
+            { $match: { date: { $gte: gteDate, $lte: lteDate } } },
+            {
+                $group: {
+                    _id: { category: "$category" },
+                    totalAmount: { $sum: "$money.amount" }
+                },
+            },
+        ]).exec();
+    }
+
+
 }

@@ -55,7 +55,7 @@ export class RevenueService {
         })
     }
 
-    async sumRevenue(year: number, month: number) {
+    async extractRevenue(year: number, month: number) {
         const gteDate = new Date(year, month - 1, 1);
         const lteDate = new Date(year, month, 0);
         return await this.revenueModel.aggregate([

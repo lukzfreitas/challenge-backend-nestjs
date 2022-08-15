@@ -10,11 +10,25 @@ export class ExtractService {
         private revenueService: RevenueService
     ) { }
 
-    async extractExpenseByMonth(year: number, month: number) {
-        return this.expenseService.sumExpense(year, month);
-    }
-
-    async extractRevenueByMonth(year: number, month: number) {
-        return this.revenueService.sumRevenue(year, month);
+    async extract(year: number, month: number) {
+        let expenseAggregateByMonth: any = await this.expenseService.extractExpanseByMonth(year, month);
+        let expenseAggregateByCategory: any = await this.expenseService.extractExpanseByCategory(year, month);
+        let revenueAggregate: any = await this.revenueService.extractRevenue(year, month);
+        let totalExpense = 0;
+        let totalRevenue = 0;
+        if (expenseAggregateByMonth.length > 0) {
+            totalExpense = expenseAggregateByMonth[0].totalAmount;
+        }
+        if (revenueAggregate.length > 0) {
+            totalRevenue = revenueAggregate[0].totalAmount;
+        }
+        const balance = totalRevenue - totalExpense;
+        const extract = {
+            totalRevenue,
+            totalExpense,
+            balance,
+            expenseAggregateByCategory
+        }
+        return extract;
     }
 }
