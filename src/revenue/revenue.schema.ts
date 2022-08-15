@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Money } from "src/models/money";
+import { MoneyModel } from "src/models/money.model";
 
 export type RevenueDocument = Revenue & Document
 
@@ -9,7 +9,7 @@ export class Revenue {
     @Prop({ required: true })
     description: String;
 
-    @Prop({ type: Money, required: true })
+    @Prop({ type: MoneyModel, required: true })
     money: String;
 
     @Prop({ type: Date, required: true })

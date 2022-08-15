@@ -1,18 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ExtractModel } from 'src/models/extract.model';
 import { Expense, ExpenseDocument } from './expense.schema';
 
 @Injectable()
-export class ExpenseService {    
+export class ExpenseService {
 
     constructor(@InjectModel(Expense.name) private expenseModel: Model<ExpenseDocument>) { }
 
     async findByMonth(year: number, month: number): Promise<Expense[]> {
         const gteDate = new Date(year, month - 1, 1);
-        const ltDate = new Date(year, month, 0);        
+        const ltDate = new Date(year, month, 0);
         return this.expenseModel.find().where({
-            date:  {
+            date: {
                 $gte: gteDate,
                 $lte: ltDate
             }
@@ -52,5 +53,19 @@ export class ExpenseService {
             }
         });
         return list.length > 0;
+    }
+
+    async sumExpense(): Promise<ExtractModel> {
+        const sum: any = await this.expenseModel.aggregate([
+            {
+                $group:
+                {
+                    _id: { month: { $month: "$date" }, year: { $year: "$date" } },
+                    totalAmount: { $sum: "$money.amount" },
+                    count: { $sum: 1 }
+                }
+            }
+        ]).exec();
+        return sum;
     }
 }

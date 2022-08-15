@@ -6,11 +6,14 @@ import { ConfigurationModule } from './configuration/configuration.module';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { RevenueModule } from './revenue/revenue.module';
 import { ExpenseModule } from './expense/expense.module';
+import { ExtractController } from './extract/extract.controller';
+import { ExtractModule } from './extract/extract.module';
 
 @Module({
   imports: [
     RevenueModule,
-    ExpenseModule,
+    ExpenseModule,    
+    ExtractModule,
     ConfigurationModule,
     MongooseModule.forRootAsync({
       imports: [ConfigurationModule],

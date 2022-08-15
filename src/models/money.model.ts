@@ -1,6 +1,4 @@
-
-
-export class Money {
+export class MoneyModel {
 
     private amount: number;
     
