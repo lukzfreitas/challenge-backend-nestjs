@@ -31,7 +31,7 @@ export class ExpenseController {
     }
 
     @Get('/:year/:month')
-    findByMonth(@Param('year') year: number, @Param('month') month: number,): Promise<Expense[]> {                
+    findByMonth(@Param('year') year: number, @Param('month') month: number,): Promise<Expense[]> {
         return this.expenseService.findByMonth(year, month);
     }
 

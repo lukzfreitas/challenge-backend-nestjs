@@ -7,6 +7,7 @@ import { RevenueService } from './revenue.service';
 @Module({
   imports: [MongooseModule.forFeature([{ name: Revenue.name, schema: RevenueSchema }])],
   controllers: [RevenueController],
-  providers: [RevenueService]
+  providers: [RevenueService],
+  exports: [RevenueService]
 })
 export class RevenueModule { }

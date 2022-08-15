@@ -55,17 +55,17 @@ export class ExpenseService {
         return list.length > 0;
     }
 
-    async sumExpense(): Promise<ExtractModel> {
-        const sum: any = await this.expenseModel.aggregate([
+    async sumExpense(year: number, month: number) {
+        const gteDate = new Date(year, month - 1, 1);
+        const lteDate = new Date(year, month, 0);
+        return await this.expenseModel.aggregate([
+            { $match: { date: { $gte: gteDate, $lte: lteDate } } },
             {
-                $group:
-                {
+                $group: {
                     _id: { month: { $month: "$date" }, year: { $year: "$date" } },
-                    totalAmount: { $sum: "$money.amount" },
-                    count: { $sum: 1 }
+                    totalAmount: { $sum: "$money.amount" }
                 }
             }
         ]).exec();
-        return sum;
     }
 }

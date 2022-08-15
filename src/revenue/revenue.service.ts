@@ -13,7 +13,7 @@ export class RevenueService {
         return this.revenueModel.findOne({ _id: id })
     }
 
-    async findAll(query: {description: string}): Promise<Revenue[]> {
+    async findAll(query: { description: string }): Promise<Revenue[]> {
         if (query.description) {
             return this.revenueModel.find({ description: { $regex: query.description, $options: 'i' } }).exec();
         }
@@ -44,14 +44,28 @@ export class RevenueService {
         return list.length > 0;
     }
 
-    async findByMonth(year: number, month: number): Promise<Revenue[]> {        
+    async findByMonth(year: number, month: number): Promise<Revenue[]> {
         const gteDate = new Date(year, month - 1, 1);
-        const ltDate = new Date(year, month, 0);        
+        const ltDate = new Date(year, month, 0);
         return this.revenueModel.find().where({
-            date:  {
+            date: {
                 $gte: gteDate,
                 $lte: ltDate
             }
         })
+    }
+
+    async sumRevenue(year: number, month: number) {
+        const gteDate = new Date(year, month - 1, 1);
+        const lteDate = new Date(year, month, 0);
+        return await this.revenueModel.aggregate([
+            { $match: { date: { $gte: gteDate, $lte: lteDate } } },
+            {
+                $group: {
+                    _id: { month: { $month: "$date" }, year: { $year: "$date" } },
+                    totalAmount: { $sum: "$money.amount" }
+                }
+            }
+        ]).exec();
     }
 }
