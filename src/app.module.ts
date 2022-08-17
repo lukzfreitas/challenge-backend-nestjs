@@ -7,9 +7,13 @@ import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { RevenueModule } from './revenue/revenue.module';
 import { ExpenseModule } from './expense/expense.module';
 import { ExtractModule } from './extract/extract.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
+    AuthModule,
+    UsersModule,
     RevenueModule,
     ExpenseModule,    
     ExtractModule,
