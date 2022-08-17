@@ -9,13 +9,15 @@ import { ExpenseModule } from './expense/expense.module';
 import { ExtractModule } from './extract/extract.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { LoginModule } from './login/login.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     RevenueModule,
-    ExpenseModule,    
+    ExpenseModule,
+    LoginModule,    
     ExtractModule,
     ConfigurationModule,
     MongooseModule.forRootAsync({

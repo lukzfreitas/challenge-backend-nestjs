@@ -7,7 +7,11 @@ import { Users, UsersDocument } from 'src/users/users.schema';
 export class UsersService {
     @InjectModel(Users.name) private usersModel: Model<UsersDocument>
 
-    findOne(username: String): Promise<Users | undefined> {
+    async findOne(username: String): Promise<Users | undefined> {
         return this.usersModel.findOne({ username }).exec();
+    }
+
+    async createUser(user: Users) {
+        return new this.usersModel(user).save();
     }
 }
