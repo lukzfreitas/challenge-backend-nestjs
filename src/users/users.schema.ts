@@ -5,8 +5,8 @@ export type UsersDocument = Users & Document
 @Schema()
 export class Users {
 
-    @Prop({required: true})
-    userId: number;
+    @Prop({required: true, unique: true})
+    email: string;
 
     @Prop({ required: true })
     username: String;
