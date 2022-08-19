@@ -7,7 +7,6 @@ export class ExtractController {
 
     constructor(private extractService: ExtractService) { }
 
-    @UseGuards(JwtAuthGuard)
     @Get('/:year/:month')
     extractByMonth(@Param('year') year: number, @Param('month') month: number): Promise<any> {
         return this.extractService.extract(year, month);
