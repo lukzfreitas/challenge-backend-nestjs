@@ -1,19 +1,10 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { MoneyModel } from "src/models/money.model";
+import { Income } from "src/models/income.model";
 
 export type ExpenseDocument = Expense & Document
 
 @Schema()
-export class Expense {
-
-    @Prop({ required: true })
-    description: String;
-
-    @Prop({ type: MoneyModel, required: true })
-    money: String;
-
-    @Prop({ type: Date, required: true })
-    date: Date;
+export class Expense extends Income {    
 
     @Prop({ type: Number, required: true })
     category: Number;
