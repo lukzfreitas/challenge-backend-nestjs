@@ -15,6 +15,10 @@ export class UsersService {
         return this.usersModel.findOne({ email }).exec();
     }
 
+    async validUser(username: String, password: String): Promise<Users | undefined> {
+        return this.usersModel.findOne({ username, password }).exec();
+    }
+
     async createUser(user: Users) {
         return new this.usersModel(user).save();
     }
