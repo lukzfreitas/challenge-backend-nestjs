@@ -28,15 +28,19 @@ export class AuthService {
         if (!userFound && argon.verify(userFound.password, password)) {
             throw new ForbiddenException("Acccess Denied");
         }
-        const tokens = await this.getTokens(userFound);        
+        const tokens = await this.getTokens(userFound);
         const refresh_token = await argon.hash(tokens.refresh_token);
         await this.usersService.updateTokens(username, refresh_token);
         return tokens;
-    }   
+    }
+
+    async logout(username: string) {
+        return await this.usersService.updateTokens(username, null);
+    }
 
     async refreshTokens(username: string, refresh_token: string): Promise<any> {
         const user: Users = await this.usersService.findOne(username);
-        if (!user || !user.refresh_token) throw new ForbiddenException('Access Denied');        
+        if (!user || !user.refresh_token) throw new ForbiddenException('Access Denied');
         const rtMatches = await argon.verify(user.refresh_token, refresh_token);
         if (!rtMatches) throw new ForbiddenException('Access Denied');
 

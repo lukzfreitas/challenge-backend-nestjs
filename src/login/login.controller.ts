@@ -5,15 +5,20 @@ import { GetCurrentUserUsername } from 'src/auth/get-current-user-username.decor
 import { GetCurrentUser } from 'src/auth/get-current-user.decorator';
 import { RefreshTokenAuthGuard } from 'src/auth/guards/refresh-token-auth.guard';
 
-@Controller('login')
+@Controller('auth')
 export class LoginController {
 
   constructor(private authService: AuthService) { }
 
   @Public()
-  @Post()
+  @Post('login')
   async login(@Body() { username, password }) {
     return this.authService.login(username, password);
+  }
+
+  @Post('logout')
+  async logout(@Body() { username }) {
+    this.authService.logout(username);
   }
 
   @Public()
