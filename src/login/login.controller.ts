@@ -20,10 +20,10 @@ export class LoginController {
   @UseGuards(RefreshTokenAuthGuard)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  async refreshTokens(
+  async refresh(
     @GetCurrentUserUsername() username: string,
     @GetCurrentUser('refreshToken') refreshToken: string,
   ) {
-    this.authService.refreshTokens(username, refreshToken);
+    return this.authService.refreshTokens(username, refreshToken);
   }
 }

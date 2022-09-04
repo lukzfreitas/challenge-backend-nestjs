@@ -17,10 +17,7 @@ export class Users {
     password: String;
 
     @Prop({ type: String })
-    access_token: String;
-
-    @Prop({ type: String })
-    refresh_token: String;
+    refresh_token: string;
 }
 
 export const UsersSchema = SchemaFactory.createForClass(Users);
