@@ -1,5 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ExtractService } from './extract.service';
 
 @Controller('extract')

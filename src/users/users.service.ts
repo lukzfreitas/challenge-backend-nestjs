@@ -19,6 +19,10 @@ export class UsersService {
         return this.usersModel.findOne({ username, password }).exec();
     }
 
+    async updateTokens(username: String, password: String, access_token: String, refresh_token: String): Promise<void> {
+        return this.usersModel.findOneAndUpdate({ username, password }, {access_token, refresh_token})
+    }
+
     async createUser(user: Users) {
         return new this.usersModel(user).save();
     }

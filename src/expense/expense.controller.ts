@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CategoryEnum } from 'src/common/constants/category.enum';
 import { ContentDuplicateException } from 'src/common/exceptions/content-duplicate.exception';
 import { Expense } from './expense.schema';

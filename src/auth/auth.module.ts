@@ -5,8 +5,9 @@ import { ConfigurationModule } from 'src/configuration/configuration.module';
 import { ConfigurationService } from 'src/configuration/configuration.service';
 import { UsersModule } from 'src/users/users.module';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './jwt.strategy';
-import { LocalStrategy } from './local.strategy';
+import { AccessTokenStrategy } from './strategies/access-token.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
+import { RefreshTokenStrategy } from './strategies/refresh-token.stategy';
 
 @Module({
   imports: [
@@ -18,14 +19,18 @@ import { LocalStrategy } from './local.strategy';
       inject: [ConfigurationService],
       useFactory: (appConfigService: ConfigurationService) => {
         const options: JwtModuleOptions = {
-          secret: appConfigService.jwtSecretKey,
-          signOptions: { expiresIn: '60s' }
+          secret: appConfigService.accessTokenSecretKey          
         }
         return options;
       }
     })
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    AccessTokenStrategy,
+    RefreshTokenStrategy
+  ],
   exports: [AuthService]
 })
 export class AuthModule { }

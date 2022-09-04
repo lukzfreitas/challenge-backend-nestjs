@@ -4,19 +4,25 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class ConfigurationService {
     private readonly _connectionString!: string;
-    private readonly _jwtSecretKey!: string;
+    private readonly _accessTokenSecretKey!: string;
+    private readonly _refreshTokenSecretKey!: string;
 
     get connectionString(): string {
         return this._connectionString;
     }
 
-    get jwtSecretKey(): string {
-        return this._jwtSecretKey
+    get accessTokenSecretKey(): string {
+        return this._accessTokenSecretKey
+    }
+
+    get refreshTokenSecretKey(): string {
+        return this._refreshTokenSecretKey;
     }
 
     constructor(private readonly _configService: ConfigService) {
         this._connectionString = this._getConnectionStringFromEnvFile();
-        this._jwtSecretKey = this._getJwtSecretKeyFromEnvFile();
+        this._accessTokenSecretKey = this._getAccessTokenSecretKeyFromEnvFile();
+        this._refreshTokenSecretKey = this._getRefreshTokenSecretKeyFromEnvFile();
     }
 
     private _getConnectionStringFromEnvFile(): string {
@@ -28,12 +34,21 @@ export class ConfigurationService {
         return connectionString;
     }
 
-    private _getJwtSecretKeyFromEnvFile(): string {
-        const jwtSecretKey = this._configService.get<string>('JWT_SECRECT_KEY');
-        if (!jwtSecretKey) {
+    private _getAccessTokenSecretKeyFromEnvFile(): string {
+        const accessTokenSecretKey = this._configService.get<string>('ACCESS_TOKEN_SECRECT_KEY');
+        if (!accessTokenSecretKey) {
             throw new Error('No jwt secret key has been provided in the .env file.');
         }
 
-        return jwtSecretKey;
+        return accessTokenSecretKey;
+    }
+
+    private _getRefreshTokenSecretKeyFromEnvFile(): string {
+        const refreshTokenSecretKey = this._configService.get<string>('REFRESH_TOKEN_SECRECT_KEY');
+        if (!refreshTokenSecretKey) {
+            throw new Error('No jwt secret key has been provided in the .env file.');
+        }
+
+        return refreshTokenSecretKey;
     }
 }
