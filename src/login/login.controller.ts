@@ -12,8 +12,8 @@ export class LoginController {
 
   @Public()
   @Post()
-  async login(@Body() user) {
-    return this.authService.login(user);
+  async login(@Body() { username, password }) {
+    return this.authService.login(username, password);
   }
 
   @Public()

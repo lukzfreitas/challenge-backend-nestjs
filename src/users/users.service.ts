@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Users, UsersDocument } from 'src/users/users.schema';
+import * as argon from 'argon2';
 
 @Injectable()
 export class UsersService {
@@ -15,15 +16,12 @@ export class UsersService {
         return this.usersModel.findOne({ email }).exec();
     }
 
-    async validUser(username: String, password: String): Promise<Users | undefined> {
-        return this.usersModel.findOne({ username, password }).exec();
-    }
-
     async updateTokens(username: String, refresh_token: String): Promise<void> {
         return this.usersModel.findOneAndUpdate({ username }, { refresh_token })
     }
 
     async createUser(user: Users) {
+        user.password = await argon.hash(user.password);
         return new this.usersModel(user).save();
     }
 }

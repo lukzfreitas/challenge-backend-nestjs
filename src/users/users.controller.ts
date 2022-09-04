@@ -16,6 +16,7 @@ export class UsersController {
         if (userFound) {
             throw new ContentDuplicateException("E-mail already exists");
         }
-        return this.usersService.createUser(user);
+        await this.usersService.createUser(user);
+        return { message: `User ${user.username} created`};
     }
 }

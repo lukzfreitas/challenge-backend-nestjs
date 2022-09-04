@@ -11,10 +11,10 @@ export class Users {
     email: string;
 
     @Prop({ required: true })
-    username: String;
+    username: string;
 
     @Prop({ type: String, required: true })
-    password: String;
+    password: string;
 
     @Prop({ type: String })
     refresh_token: string;
