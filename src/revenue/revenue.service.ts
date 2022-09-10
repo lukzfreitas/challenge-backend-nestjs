@@ -17,7 +17,7 @@ export class RevenueService {
         if (query.description) {
             return this.revenueModel.find({ description: { $regex: query.description, $options: 'i' } }).exec();
         }
-        return this.revenueModel.find().exec();
+        return this.revenueModel.find().populate("typeIncome").exec();
     }
 
     async create(revenue: Revenue): Promise<Revenue> {

@@ -12,6 +12,7 @@ import { UsersModule } from './users/users.module';
 import { LoginModule } from './login/login.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenAuthGuard } from './auth/guards/access-token-auth.guard';
+import { TypeIncomeModule } from './type-income/type-income.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AccessTokenAuthGuard } from './auth/guards/access-token-auth.guard';
     ExpenseModule,
     LoginModule,    
     ExtractModule,
+    TypeIncomeModule,
     ConfigurationModule,
     MongooseModule.forRootAsync({
       imports: [ConfigurationModule],
