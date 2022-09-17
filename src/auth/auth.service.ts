@@ -25,7 +25,8 @@ export class AuthService {
 
     async login(username: string, password: string) {
         const userFound: Users = await this.usersService.findOne(username);
-        if (!userFound && argon.verify(userFound.password, password)) {
+        const verify = await argon.verify(userFound.password, password)
+        if (!userFound || !verify) {
             throw new ForbiddenException("Acccess Denied");
         }
         const tokens = await this.getTokens(userFound);

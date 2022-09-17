@@ -4,7 +4,7 @@ import { TypeIncome } from "src/type-income/type-income.schema";
 import { MoneyModel } from "./money.model";
 
 export abstract class Income {
-    
+
     @Prop({ required: true })
     description: String;
 
@@ -14,6 +14,6 @@ export abstract class Income {
     @Prop({ type: Date, required: true })
     date: Date;
 
-    @Prop({type: mongoose.Schema.Types.ObjectId, ref: TypeIncome.name})    
-    typeIncome: TypeIncome
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: TypeIncome.name })
+    typeIncome: TypeIncome;
 } 
