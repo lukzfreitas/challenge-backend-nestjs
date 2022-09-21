@@ -17,6 +17,10 @@ export class TypeIncomeService {
         }
     }
 
+    async update(id: string, typeIncome: TypeIncome): Promise<TypeIncome> {
+        return this.typeIncomeModel.findOneAndUpdate({ _id: id }, typeIncome, { new: true }).exec();        
+    }
+
     async findAll(): Promise<TypeIncome[]> {
         return this.typeIncomeModel.find().exec();
     }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Delete, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Param, Put } from '@nestjs/common';
 import { TypeIncome } from './type-income.schema';
 import { TypeIncomeService } from './type-income.service';
 
@@ -11,6 +11,11 @@ export class TypeIncomeController {
     @Post()
     async create(@Body() typeIncome: TypeIncome): Promise<TypeIncome> {
         return await this.typeIncomeService.create(typeIncome);
+    }
+
+    @Put(':id')
+    update(@Param('id') id: string, @Body() typeIncome): Promise<TypeIncome> {
+        return this.typeIncomeService.update(id, typeIncome);
     }
 
     @Get()
