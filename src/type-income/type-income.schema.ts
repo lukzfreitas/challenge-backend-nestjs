@@ -5,7 +5,7 @@ export type TypeIncomeDocument = TypeIncome & Document
 @Schema()
 export class TypeIncome {
 
-    @Prop({ type: Number, required: true, unique: true })
+    @Prop({ type: Number, required: true})
     code: Number;
 
     @Prop({ required: true })

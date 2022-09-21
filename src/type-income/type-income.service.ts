@@ -18,7 +18,7 @@ export class TypeIncomeService {
     }
 
     async update(id: string, typeIncome: TypeIncome): Promise<TypeIncome> {
-        return this.typeIncomeModel.findOneAndUpdate({ _id: id }, typeIncome, { new: true }).exec();        
+        return this.typeIncomeModel.findOneAndUpdate({ _id: id }, typeIncome).exec();
     }
 
     async findAll(): Promise<TypeIncome[]> {
@@ -27,5 +27,10 @@ export class TypeIncomeService {
 
     async delete(code: Number) {
         return this.typeIncomeModel.deleteOne({ code });
+    }
+
+    async isCodeExits(id: String, code: number): Promise<boolean> {
+        const typeIncome: TypeIncome = await this.typeIncomeModel.findOne({ code, _id: { $ne: id } });
+        return typeIncome !== null;
     }
 }
